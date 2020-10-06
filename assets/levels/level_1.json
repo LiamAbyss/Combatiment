@@ -1,0 +1,19 @@
+{
+    "name": "Securite",
+    "color": "0x808080",
+    "power": "hack",
+    "boss": "bossTrojan",
+    "done": true,
+    "waves": [
+        {
+            "enemies": [ "clickbait", "camera", "virus" ],
+            "timeout": 500
+        }
+    ],
+
+    "screens": [
+        {
+            "waves": [0]
+        }
+    ]
+}

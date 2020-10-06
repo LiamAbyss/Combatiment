@@ -1,0 +1,15 @@
+{
+    "name": "Gestion des\nenergies",
+    "color": "0x3498db",
+    "power": "energy",
+    "done": false,
+    "waves": [
+        {
+            "enemies": [ "barrel", "uranium" ],
+            "timeout": 500
+        }
+    ],
+
+    "screens": [
+    ]
+}

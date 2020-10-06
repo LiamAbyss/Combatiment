@@ -1,0 +1,54 @@
+{
+    "name": "Consommation\nd'energie",
+    "color": "0xFFD647",
+    "ambient": "nightoffire",
+    "bossAmbient": "gasgasgas",
+    "ambientSeek": 36.5,
+    "bossAmbientSeek": 34,
+    "power": "thunder",
+    "boss": "bossFridge",
+    "waves": [
+        {
+            "enemies": [ "bulb" ],
+            "timeout": 500
+        },
+        {
+            "enemies": [ "radiator" ],
+            "timeout": 500
+        },
+        {
+            "enemies": [ "washmachine" ],
+            "timeout": 500
+        },
+        {
+            "enemies": [ "radiator", "bulb", "washmachine" ],
+            "timeout": 200
+        },
+        {
+            "enemies": [ "bulb", "radiator", "radiator", "washmachine", "bulb", "bulb" ],
+            "timeout": 100
+        },
+        {
+            "enemies": [ "bulb" , "radiator", "washmachine", "radiator", "bulb", "radiator", "washmachine", "bulb" ],
+            "timeout": 100
+        },
+        {
+            "enemies": [ "bulb", "radiator", "bulb", "washmachine" ] ,
+            "timeout": 300
+        }
+    ],
+
+    "screens": [
+        {
+            "waves": [0, 1, 2, 3]
+        },
+        {
+            "waves": [1, 3, 2, 2, 3],
+            "nextWave": {"enemiesNumber": 2}
+        },
+        {
+            "waves": [3, 3, 4, 2, 3],
+            "nextWave": {"enemiesNumber": 1}
+        }
+    ]
+}

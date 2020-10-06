@@ -1,0 +1,15 @@
+{
+    "name": "Isolation et\necologie",
+    "color": "0x2ecc71",
+    "power": "leaf",
+    "done": false,
+    "waves": [
+        {
+            "enemies": [ "concretemixer", "asbestos" ],
+            "timeout": 500
+        }
+    ],
+
+    "screens": [
+    ]
+}
