@@ -9,7 +9,9 @@ private:
 	sf::Sprite background;
 	sf::Sprite menuFrame;
 	sf::Sprite title;
-	std::map<std::string, sf::Text> menuItems;
+	sf::Sprite selector;
+	int selected = 0;
+	std::vector<std::pair<std::string, sf::Text>> menuItems;
 	GFont font;
 	GMusic ambient;
 

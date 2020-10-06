@@ -143,7 +143,7 @@
     <ClInclude Include="GameLib\Clickable.h" />
     <ClInclude Include="GameLib\Game.h" />
     <ClInclude Include="GameLib\Hitbox.h" />
-    <ClInclude Include="GameLib\json.hpp" />
+    <ClInclude Include="GameLib\JsonHeader\json.hpp" />
     <ClInclude Include="GameLib\ResourceManager.h" />
     <ClInclude Include="GameLib\Scene.h" />
     <ClInclude Include="Menu.h" />

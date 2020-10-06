@@ -23,7 +23,7 @@ void Menu::initialize()
 	loadingText.setPosition(loadingShape.getPosition().x, loadingShape.getPosition().y - loadingText.getCharacterSize() / 0.4);
 
 	float progress = 0;
-	float progressStep = 1. / 5.;
+	float progressStep = 1. / 6.;
 	auto renderProgress = [&loadingShape, &loadProgress, &loadingText, &progress, &progressStep](std::string filename, sf::RenderWindow* window)
 	{
 		progress += progressStep;
@@ -49,11 +49,13 @@ void Menu::initialize()
 	renderProgress("../assets/misc/menuframe.png", window);
 	resources->load("menu/title", "../assets/misc/title.png");
 	renderProgress("../assets/misc/title.png", window);
+	resources->load("menu/selector", "../assets/menu/selector.png");
+	renderProgress("../assets/menu/selector.png", window);
 
 	//MUSICS and SOUNDS
 	ambient = boost::get<GMusic>(resources->get("menu/ambient"));
 	ambient->setLoop(true);
-	ambient->play();
+	//ambient->play();
 
 	//TEXTURES
 	//Background
@@ -69,7 +71,7 @@ void Menu::initialize()
 	//MenuFrame
 	sf::Texture& frameText = *boost::get<GTexture>(resources->get("menu/frame"));
 	menuFrame.setTexture(frameText);
-	menuFrame.setScale(sf::Vector2f(1, 1));
+	menuFrame.setScale(sf::Vector2f(1, 2));
 	menuFrame.setPosition(sf::Vector2f(
 		game->getVideoMode().width / 2 - menuFrame.getScale().x * frameText.getSize().x / 2,
 		game->getVideoMode().height / 2 - menuFrame.getScale().y * frameText.getSize().y / 2
@@ -82,15 +84,34 @@ void Menu::initialize()
 	title.setTexture(titleText);
 
 	//MENU ITEMS
-	menuItems.emplace("start", sf::Text());
-	menuItems["start"].setFont(*font);
-	menuItems["start"].setString("Start");
-	menuItems["start"].setCharacterSize(window->getSize().y * 0.035);
-	menuItems["start"].setFillColor(sf::Color::White);
-	menuItems["start"].setPosition(sf::Vector2f(
-		menuFrame.getPosition().x + (menuFrame.getScale().x * frameText.getSize().x - menuItems["start"].getGlobalBounds().width) / 2,
-		menuFrame.getPosition().y + (menuFrame.getScale().y * frameText.getSize().y - menuItems["start"].getGlobalBounds().height - 25) / 2
+	menuItems.push_back(std::make_pair("Start", sf::Text()));
+	menuItems.push_back(std::make_pair("Options", sf::Text()));
+	menuItems.push_back(std::make_pair("Exit", sf::Text()));
+	
+	int iItem = 0;
+	for(auto& f : menuItems)
+	{
+		iItem++;
+		f.second.setFont(*font);
+		f.second.setString(f.first);
+		f.second.setCharacterSize(window->getSize().y * 0.035);
+		f.second.setFillColor(sf::Color::White); 
+		sf::Vector2f itemPos(
+			menuFrame.getPosition().x + (menuFrame.getScale().x * frameText.getSize().x - f.second.getGlobalBounds().width) / 2,
+			menuFrame.getPosition().y + f.second.getGlobalBounds().height * 2.5 * iItem//+ (menuFrame.getScale().y * frameText.getSize().y - menuItems.begin()->second.getGlobalBounds().height) / menuItems.size()
+		);
+		f.second.setPosition(itemPos);
+	}
+
+	//MENU SELECTOR
+	GTexture selectText = boost::get<GTexture>(resources->get("menu/selector"));
+	selector.setTexture(*selectText);
+	selector.setScale(menuFrame.getScale().x * frameText.getSize().x / selectText->getSize().x * 0.8, selectText->getSize().y / menuItems[0].second.getGlobalBounds().height);
+	selector.setPosition(sf::Vector2f(
+		menuFrame.getPosition().x + (menuFrame.getScale().x * frameText.getSize().x - selector.getScale().x * selectText->getSize().x) / 2, 
+		menuFrame.getPosition().y + menuItems.begin()->second.getGlobalBounds().height * 2.5 * (selected + 1)
 	));
+
 
 	//Prepare menu animation
 	sf::Vector2f finalScale(0.14, 0.14);
@@ -129,6 +150,7 @@ void Menu::initialize()
 		window->draw(menuFrame);
 		for (auto& f : menuItems)
 			window->draw(f.second);
+		window->draw(selector);
 		window->draw(title);
 		window->display();
 	}
@@ -146,6 +168,39 @@ void Menu::update(sf::Time dt, sf::Event& ev)
 		{
 			window->close();
 		}
+		else if(ev.key.code == sf::Keyboard::Down)
+		{
+			sf::Texture& frameText = *boost::get<GTexture>(resources->get("menu/frame"));
+			GTexture selectText = boost::get<GTexture>(resources->get("menu/selector"));
+			if (++selected >= menuItems.size())
+				selected = 0;
+			selector.setPosition(sf::Vector2f(
+				menuFrame.getPosition().x + (menuFrame.getScale().x * frameText.getSize().x - selector.getScale().x * selectText->getSize().x) / 2,
+				menuFrame.getPosition().y + menuItems.begin()->second.getGlobalBounds().height * 2.5 * (selected + 1)
+			));
+		}
+		else if (ev.key.code == sf::Keyboard::Up)
+		{
+			sf::Texture& frameText = *boost::get<GTexture>(resources->get("menu/frame"));
+			GTexture selectText = boost::get<GTexture>(resources->get("menu/selector"));
+			if (--selected < 0)
+				selected = menuItems.size() - 1;
+			selector.setPosition(sf::Vector2f(
+				menuFrame.getPosition().x + (menuFrame.getScale().x * frameText.getSize().x - selector.getScale().x * selectText->getSize().x) / 2,
+				menuFrame.getPosition().y + menuItems.begin()->second.getGlobalBounds().height * 2.5 * (selected + 1)
+			));
+		}
+		else if(ev.key.code == sf::Keyboard::Return)
+		{
+			switch (selected)
+			{
+			case 2:
+				window->close();
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 
@@ -155,5 +210,6 @@ void Menu::render()
 	window->draw(menuFrame);
 	for (auto& f : menuItems)
 		window->draw(f.second);
+	window->draw(selector);
 	window->draw(title);
 }

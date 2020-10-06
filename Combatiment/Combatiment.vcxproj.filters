@@ -53,13 +53,13 @@
     <ClInclude Include="GameLib\Hitbox.h">
       <Filter>GameLib</Filter>
     </ClInclude>
-    <ClInclude Include="GameLib\json.hpp">
-      <Filter>GameLib</Filter>
-    </ClInclude>
     <ClInclude Include="GameLib\ResourceManager.h">
       <Filter>GameLib</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\Scene.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\JsonHeader\json.hpp">
       <Filter>GameLib</Filter>
     </ClInclude>
   </ItemGroup>

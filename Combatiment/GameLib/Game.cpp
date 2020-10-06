@@ -20,6 +20,7 @@ std::map<std::string, std::shared_ptr<Scene>>& Game::getScenes()
 
 void Game::setCurrentScene(std::string label)
 {
+	//TODO : Clear local resources
 	currentScene = label;
 	clickables.resize(0);
 	scenes[label]->initialize();
