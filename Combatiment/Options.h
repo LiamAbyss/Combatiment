@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-class Menu : public Scene
+class Options : public Scene
 {
 private:
 	sf::Sprite background;
@@ -15,6 +15,7 @@ private:
 	GFont font;
 	GMusic ambient;
 	bool initialized = false;
+	int volume = 100;
 
 public:
 	// Hérité via Scene

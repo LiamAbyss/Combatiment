@@ -138,6 +138,7 @@
     <ClCompile Include="GameLib\Scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLib\Clickable.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="GameLib\ResourceManager.h" />
     <ClInclude Include="GameLib\Scene.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Options.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

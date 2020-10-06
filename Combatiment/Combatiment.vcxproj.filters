@@ -39,6 +39,9 @@
     <ClCompile Include="GameLib\Scene.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="GameLib\JsonHeader\json.hpp">
       <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

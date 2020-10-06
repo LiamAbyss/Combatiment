@@ -2,6 +2,8 @@
 
 void Menu::initialize()
 {
+	if (initialized) return;
+	initialized = true;
 	//Set a framerate limit for the progress bar and menu animation
 	window->setFramerateLimit(60);
 
@@ -55,7 +57,7 @@ void Menu::initialize()
 	//MUSICS and SOUNDS
 	ambient = boost::get<GMusic>(resources->get("menu/ambient"));
 	ambient->setLoop(true);
-	//ambient->play();
+	ambient->play();
 
 	//TEXTURES
 	//Background
@@ -71,16 +73,15 @@ void Menu::initialize()
 	//MenuFrame
 	sf::Texture& frameText = *boost::get<GTexture>(resources->get("menu/frame"));
 	menuFrame.setTexture(frameText);
-	menuFrame.setScale(sf::Vector2f(1, 2));
+	menuFrame.setScale(sf::Vector2f(1.5, 2));
 	menuFrame.setPosition(sf::Vector2f(
 		game->getVideoMode().width / 2 - menuFrame.getScale().x * frameText.getSize().x / 2,
-		game->getVideoMode().height / 2 - menuFrame.getScale().y * frameText.getSize().y / 2
+		game->getVideoMode().height / 2 - menuFrame.getScale().y * frameText.getSize().y / 2 + 0.4 * frameText.getSize().y
 	));
 	menuFrame.setColor(sf::Color(255, 255, 255, 0));
 
 	//Title
 	sf::Texture& titleText = *boost::get<GTexture>(resources->get("menu/title"));
-
 	title.setTexture(titleText);
 
 	//MENU ITEMS
@@ -194,6 +195,9 @@ void Menu::update(sf::Time dt, sf::Event& ev)
 		{
 			switch (selected)
 			{
+			case 1:
+				game->setCurrentScene("options");
+				break;
 			case 2:
 				window->close();
 				break;
