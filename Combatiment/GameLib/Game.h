@@ -158,7 +158,13 @@ public:
 	 * \public
 	 * \return A reference to the dimensions of the main window.
 	 */
-	sf::VideoMode& getVideoMode();
+	sf::VideoMode getVideoMode();
+
+	/**
+	 * \public
+	 * \param mode New video mode. 
+	 */
+	void setVideoMode(sf::VideoMode mode, sf::Uint32 style = 7U);
 
 	/**
 	 * \public

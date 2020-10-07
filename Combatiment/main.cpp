@@ -7,7 +7,8 @@
 
 int main()
 {
-	Game combatiment("Combatiment", sf::VideoMode::getFullscreenModes()[1], sf::Style::Fullscreen);
+	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+	Game combatiment("Combatiment", modes[/*modes.size() - */1/*(modes.size() > 1? 1 : 0)*/]);
 	combatiment.addScene("menu", new Menu());
 	combatiment.addScene("options", new Options());
 	combatiment.setCurrentScene("menu");

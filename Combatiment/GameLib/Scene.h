@@ -32,6 +32,8 @@ protected:
 	 */
 	sf::RenderWindow* window;
 
+	bool initialized = false;
+
 public:
 
 	/**
@@ -42,6 +44,8 @@ public:
 	 * \note You should not call this method yourself.
 	 */
 	void setGame(Game* game);
+
+	void setInitialized(bool init);
 
 	/** 
 	 * \public

@@ -14,12 +14,13 @@ private:
 	std::vector<std::pair<std::string, sf::Text>> menuItems;
 	GFont font;
 	GMusic ambient;
-	bool initialized = false;
+	bool loaded = false;
 
 public:
 	// Hérité via Scene
 	virtual void initialize() override;
 	virtual void update(sf::Time dt, sf::Event& ev) override;
 	virtual void render() override;
+	void setInitialized(bool init);
 };
 

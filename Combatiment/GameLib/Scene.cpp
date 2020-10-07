@@ -6,3 +6,8 @@ void Scene::setGame(Game* game)
 	this->resources = &(game->getResources());
 	this->window = &(game->getWindow());
 }
+
+void Scene::setInitialized(bool init)
+{
+	initialized = init;
+}

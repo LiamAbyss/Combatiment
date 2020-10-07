@@ -24,6 +24,7 @@ void Game::setCurrentScene(std::string label)
 	currentScene = label;
 	clickables.resize(0);
 	scenes[label]->initialize();
+	scenes[label]->setInitialized(true);
 }
 
 void Game::addClickable(Clickable* clickable)
@@ -48,9 +49,15 @@ sf::RenderWindow& Game::getWindow()
 	return window;
 }
 
-sf::VideoMode& Game::getVideoMode()
+sf::VideoMode Game::getVideoMode()
 {
 	return windowMode;
+}
+
+void Game::setVideoMode(sf::VideoMode mode, sf::Uint32 style)
+{
+	window.create(mode, windowTitle, style);
+	windowMode = mode;
 }
 
 unsigned short Game::getFramerate()
