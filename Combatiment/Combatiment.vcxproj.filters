@@ -24,7 +24,16 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScreen.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
     <ClCompile Include="GameLib\Clickable.cpp">
+      <Filter>GameLib</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLib\Game.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
     <ClCompile Include="GameLib\Hitbox.cpp">
@@ -33,13 +42,10 @@
     <ClCompile Include="GameLib\ResourceManager.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLib\Game.cpp">
+    <ClCompile Include="GameLib\Scene.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
-    <ClCompile Include="GameLib\Scene.cpp">
+    <ClCompile Include="GameLib\TransparentWindow.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +53,16 @@
     <ClInclude Include="Menu.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashScreen.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
     <ClInclude Include="GameLib\Clickable.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Game.h">
       <Filter>GameLib</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\Hitbox.h">
@@ -56,16 +71,13 @@
     <ClInclude Include="GameLib\ResourceManager.h">
       <Filter>GameLib</Filter>
     </ClInclude>
+    <ClInclude Include="GameLib\Scene.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
     <ClInclude Include="GameLib\JsonHeader\json.hpp">
       <Filter>GameLib</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLib\Game.h">
-      <Filter>GameLib</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLib\Scene.h">
+    <ClInclude Include="GameLib\TransparentWindow.h">
       <Filter>GameLib</Filter>
     </ClInclude>
   </ItemGroup>

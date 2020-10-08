@@ -105,3 +105,13 @@ void Game::launch()
 	}
 	std::cout << "Game time : " << gameClock.restart().asSeconds() << "s" << std::endl;
 }
+
+bool Game::setWShape(const sf::Image& image)
+{
+	return ::setWShape(window.getSystemHandle(), image);
+}
+
+bool Game::setWTransparency(unsigned char alpha)
+{
+	return ::setWTransparency(window.getSystemHandle(), alpha);
+}

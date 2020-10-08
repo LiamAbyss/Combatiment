@@ -55,12 +55,12 @@ void Menu::initialize()
 		renderProgress("../assets/misc/title.png", window);
 		resources->load("menu/selector", "../assets/menu/selector.png");
 		renderProgress("../assets/menu/selector.png", window);
-	}
 
-	//MUSICS and SOUNDS
-	ambient = boost::get<GMusic>(resources->get("menu/ambient"));
-	ambient->setLoop(true);
-	//ambient->play();
+		//MUSICS and SOUNDS
+		ambient = boost::get<GMusic>(resources->get("menu/ambient"));
+		ambient->setLoop(true);
+		ambient->play();
+	}
 
 	//TEXTURES
 	//Background

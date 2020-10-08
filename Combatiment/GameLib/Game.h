@@ -7,6 +7,7 @@
 #include <string>
 #include "Clickable.h"
 #include "ResourceManager.h"
+#include "TransparentWindow.h"
 
 class Scene;
 #include "Scene.h"
@@ -183,6 +184,20 @@ public:
 	 * Launches the game.
 	 */
 	void launch();
+
+	/**
+	 * \public
+	 * Sets the shape of the window according to an image with transparent parts.
+	 * \param image The image to shape the window.
+	 */
+	bool setWShape(const sf::Image& image);
+
+	/**
+	 * \public
+	 * Sets the transparency of the window.
+	 * \param alpha the opacity (0-255).
+	 */
+	bool setWTransparency(unsigned char alpha);
 };
 
 #endif // !INCLUDE_GAME
