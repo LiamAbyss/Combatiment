@@ -22,5 +22,8 @@ public:
 	virtual void update(sf::Time dt, sf::Event& ev) override;
 	virtual void render() override;
 	void setInitialized(bool init);
+
+	// Hérité via Scene
+	virtual void update(sf::Time dt) override;
 };
 

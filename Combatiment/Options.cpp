@@ -224,3 +224,7 @@ void Options::checkVideoMode()
 	}
 	game->setCurrentScene("options");
 }
+
+void Options::update(sf::Time dt)
+{
+}

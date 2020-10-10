@@ -29,5 +29,8 @@ public:
 	void repositionMenuItems();
 	void setInitialized(bool init);
 	void checkVideoMode();
+
+	// Hérité via Scene
+	virtual void update(sf::Time dt) override;
 };
 

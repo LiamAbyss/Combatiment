@@ -61,6 +61,15 @@ public:
 	 */
 	virtual void update(sf::Time dt, sf::Event& ev) = 0;
 
+
+	/**
+	 * \public
+	 * Game loop in which all the processing is done.
+	 * \param dt The time passed since last update.
+	 * \param ev The SFML event for the main window.
+	 */
+	virtual void update(sf::Time dt) = 0;
+
 	/** 
 	 * \public
 	 * Game loop in which all the rendering is done.

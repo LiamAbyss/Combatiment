@@ -1,0 +1,17 @@
+{
+  "ground": {
+    "main": [
+      {
+        "label": "main",
+        "x": 0,
+        "y": 0,
+        "width": 1600,
+        "height": 181,
+        "type": "hurtbox",
+        "start": 0,
+        "end": 0,
+        "angle":  0
+      }
+    ]
+  }
+}

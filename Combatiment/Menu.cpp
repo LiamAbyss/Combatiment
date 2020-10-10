@@ -7,7 +7,7 @@ void Menu::initialize()
 	if (!loaded)
 	{
 		//Set a framerate limit for the progress bar and menu animation
-		window->setFramerateLimit(60);
+		//window->setFramerateLimit(60);
 
 		//LOADING BAR
 		sf::RectangleShape loadingShape;
@@ -27,7 +27,7 @@ void Menu::initialize()
 		loadingText.setPosition(loadingShape.getPosition().x, loadingShape.getPosition().y - loadingText.getCharacterSize() / 0.4);
 
 		float progress = 0;
-		float progressStep = 1. / 6.;
+		float progressStep = 1. / 8.;
 		auto renderProgress = [&loadingShape, &loadProgress, &loadingText, &progress, &progressStep](std::string filename, sf::RenderWindow* window)
 		{
 			progress += progressStep;
@@ -55,6 +55,14 @@ void Menu::initialize()
 		renderProgress("../assets/misc/title.png", window);
 		resources->load("menu/selector", "../assets/menu/selector.png");
 		renderProgress("../assets/menu/selector.png", window);
+		resources->load("game/ground", "../assets/levels/ground.png");
+		renderProgress("../assets/levels/ground.png", window);
+		resources->load("game/groundHitboxes", "../assets/levels/groundHitboxes.json");
+		renderProgress("../assets/levels/groundHitboxes.json", window);
+		resources->load("building/walk", "../assets/building/walk.png");
+		renderProgress("../assets/building/walk.png", window);
+		resources->load("building/hitboxes", "../assets/building/hitboxes.json");
+		renderProgress("../assets/building/hitboxes.json", window);
 
 		//MUSICS and SOUNDS
 		ambient = boost::get<GMusic>(resources->get("menu/ambient"));
@@ -149,7 +157,7 @@ void Menu::initialize()
 	if (!loaded)
 	{
 		//Show menu animation
-		for (float i = 0; i < 1; i += 0.015)
+		for (float i = 0; i < 1; i += 0.9 / game->getFramerate())
 		{
 			title.setScale(initScale * i);
 			title.setPosition(
@@ -162,7 +170,7 @@ void Menu::initialize()
 			window->display();
 		}
 		//sf::sleep(sf::milliseconds(500));
-		for (float i = 0; i < 1; i += 0.02)
+		for (float i = 0; i < 1; i += 1.2 / game->getFramerate())
 		{
 			title.setScale(initScale - (initScale - finalScale) * i);
 			title.setPosition(initPos.x + (finalPos.x - initPos.x) * i, initPos.y - (initPos.y - finalPos.y) * i);
@@ -179,7 +187,7 @@ void Menu::initialize()
 		}
 
 		//Remove framerate limit (Game::update() is taking care of it)
-		window->setFramerateLimit(0);
+		//window->setFramerateLimit(0);
 		loaded = true;
 	}
 	else
@@ -226,6 +234,9 @@ void Menu::update(sf::Time dt, sf::Event& ev)
 		{
 			switch (selected)
 			{
+			case 0:
+				game->setCurrentScene("levelSelect");
+				break;
 			case 1:
 				game->setCurrentScene("options");
 				break;
@@ -252,4 +263,8 @@ void Menu::render()
 void Menu::setInitialized(bool init)
 {
 	initialized = init;
+}
+
+void Menu::update(sf::Time dt)
+{
 }

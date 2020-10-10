@@ -21,13 +21,17 @@ public:
 	void setAngleHitboxes(double degrees);
 	void rotateHitboxes(double degrees);
 	void setActiveHitbox(std::string label);
+	void setScaleHitboxes(sf::Vector2f scale);
+	void flipHitboxes(sf::Sprite* sprite, bool state = true);
+	bool areHitboxesFlipped();
 };
 
 class Hitbox
 {
 public:
-	void flip(sf::Sprite sprite);	
+	void flip(sf::Sprite* sprite, bool state = true);
 	static std::map<std::string, std::vector<Hitbox>> getHitboxes(std::string filename, std::string name);
+	static std::map<std::string, std::vector<Hitbox>> getHitboxes(nlohmann::json j, std::string name);
 	static bool isOver(Hitbox a, Hitbox b);
 	static bool doesHit(Hitboxed* a, Hitboxed* b);
 	static bool isOver(Hitboxed* a, Hitboxed* b);
@@ -45,8 +49,12 @@ private:
 	float top, bottom;
 	bool flipped;
 	double angle;
+	sf::Vector2f scale = sf::Vector2f(1, 1);
 
 public:
+
+	sf::Vector2f getScale();
+	void setScale(sf::Vector2f scale);
 
     sf::Vector2f getLocalPos() const;
     sf::Vector2f getGlobalPos() const;

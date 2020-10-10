@@ -23,7 +23,7 @@ void SplashScreen::initialize()
 	game->getWindow().clear();// sf::Color(0, 0, 0, 255));
 	game->getWindow().draw(img);
 	game->getWindow().display();
-	sf::sleep(sf::seconds(3));
+	sf::sleep(sf::seconds(2));
 
 	//Reset to good values
 	game->setVideoMode(modes[/*modes.size() - */(int)(modes.size() / 4)/*(modes.size() > 1? 1 : 0)*/]);
@@ -40,4 +40,8 @@ void SplashScreen::update(sf::Time dt, sf::Event& ev)
 void SplashScreen::render()
 {
 	return;
+}
+
+void SplashScreen::update(sf::Time dt)
+{
 }

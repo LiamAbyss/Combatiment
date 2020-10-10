@@ -3,9 +3,10 @@
 namespace json = nlohmann;
 using namespace std;
 
-void Hitbox::flip(sf::Sprite sprite)
+void Hitbox::flip(sf::Sprite* sprite, bool state)
 {
-	pos.x = sprite.getGlobalBounds().width - pos.x - size.x;
+	if (flipped == state) return;
+	pos.x = sprite->getGlobalBounds().width - pos.x - size.x;
 	flipped = !flipped;
 }
 
@@ -38,6 +39,41 @@ std::map<std::string, std::vector<Hitbox>> Hitbox::getHitboxes(std::string filen
 				hitbox.bottom = hitbox.anchor.y + hitbox.pos.y + hitbox.size.y;
 				hitbox.flipped = false;
 				hitbox.angle = stof(g["angle"].dump());
+				hitbox.scale = sf::Vector2f(1, 1);
+			}
+		}
+	}
+
+	return hitboxes;
+}
+
+std::map<std::string, std::vector<Hitbox>> Hitbox::getHitboxes(nlohmann::json j, std::string name)
+{
+	std::map<std::string, std::vector<Hitbox>> hitboxes;
+
+	for (auto& f : j[name].items())
+	{
+		if (f.key() != "active")
+		{
+			hitboxes.emplace(f.key(), std::vector<Hitbox>());
+			for (auto& g : f.value())
+			{
+				hitboxes[f.key()].push_back(Hitbox());
+				auto& hitbox = hitboxes[f.key()][hitboxes[f.key()].size() - 1];
+				hitbox.label = g["label"];
+				hitbox.pos = sf::Vector2f(stoi(g["x"].dump()), stoi(g["y"].dump()));
+				hitbox.size = sf::Vector2f(stoi(g["width"].dump()), stoi(g["height"].dump()));
+				hitbox.type = g["type"];
+				hitbox.start = stoi(g["start"].dump());
+				hitbox.end = stoi(g["end"].dump());
+				hitbox.anchor = sf::Vector2f(0, 0);
+				hitbox.right = hitbox.anchor.x + hitbox.pos.x + hitbox.size.x;
+				hitbox.left = hitbox.anchor.x + hitbox.pos.x;
+				hitbox.top = hitbox.anchor.y + hitbox.pos.y;
+				hitbox.bottom = hitbox.anchor.y + hitbox.pos.y + hitbox.size.y;
+				hitbox.flipped = false;
+				hitbox.angle = stof(g["angle"].dump());
+				hitbox.scale = sf::Vector2f(1, 1);
 			}
 		}
 	}
@@ -107,6 +143,7 @@ bool doIntersect(sf::Vector2f p1, sf::Vector2f q1, sf::Vector2f p2, sf::Vector2f
 bool Hitbox::isOver(Hitbox a, Hitbox b)
 {
 	double c = 2 * M_PI / 360;
+
 	vector<sf::Vector2f> av;
 	av.push_back(sf::Vector2f(a.left, a.top));
 	av.push_back(sf::Vector2f(a.left + a.size.x * cos(a.angle*c), a.top + a.size.x * sin(a.angle * c)));
@@ -130,7 +167,33 @@ bool Hitbox::isOver(Hitbox a, Hitbox b)
 		}
 	}
 
-	return (
+	//Point in polygon algorithm
+	for (int k = 0; k < av.size() - 1; k++)
+	{
+		int nvert = bv.size() - 1;
+		bool res = false;
+		int j = nvert - 1;
+		for (int i = 0; i < nvert; j = i++) {
+			if (((bv[i].y > av[k].y) != (bv[j].y > av[k].y)) &&
+				(av[k].x < (bv[j].x - bv[i].x) * (av[k].y - bv[i].y) / (bv[j].y - bv[i].y) + bv[i].x))
+				res = !res;
+		}
+		if(res) return true;
+	}
+	for (int k = 0; k < bv.size() - 1; k++)
+	{
+		int nvert = av.size() - 1;
+		bool res = false; 
+		int j = nvert - 1;
+		for (int i = 0; i < nvert; j = i++) {
+			if (((av[i].y > bv[k].y) != (av[j].y > bv[k].y)) &&
+				(bv[k].x < (av[j].x - av[i].x) * (bv[k].y - av[i].y) / (av[j].y - av[i].y) + av[i].x))
+				res = !res;
+		}
+		if (res) return true;
+	}
+	return false;
+	/*return (
 		(a.right >= b.left && a.right <= b.right && a.bottom <= b.bottom && a.bottom >= b.top) ||
 		(a.right >= b.left && a.right <= b.right && a.top >= b.top && a.top <= b.bottom) ||
 		(a.left <= b.right && a.left >= b.left && a.bottom <= b.bottom && a.bottom >= b.top) ||
@@ -139,7 +202,7 @@ bool Hitbox::isOver(Hitbox a, Hitbox b)
 		(b.right >= a.left && b.right <= a.right && b.top >= a.top && b.top <= a.bottom) ||
 		(b.left <= a.right && b.left >= a.left && b.bottom <= a.bottom && b.bottom >= a.top) ||
 		(b.left <= a.right && b.left >= a.left && b.top >= a.top && b.top <= a.bottom)
-		);
+		);*/
 }
 
 bool Hitbox::doesHit(Hitboxed* a, Hitboxed* b)
@@ -175,6 +238,24 @@ bool Hitbox::isOver(Hitboxed* a, Hitboxed* b)
 	return false;
 }
 
+sf::Vector2f Hitbox::getScale()
+{
+	return scale;
+}
+
+void Hitbox::setScale(sf::Vector2f scale)
+{
+	pos.x = pos.x / this->scale.x * scale.x;
+	pos.y = pos.y / this->scale.y * scale.y;
+	size.x = size.x / this->scale.x * scale.x;
+	size.y = size.y / this->scale.y * scale.y;
+	this->scale = scale;
+	this->right = this->anchor.x +this->pos.x + this->size.x;
+	this->left = this->anchor.x + this->pos.x;
+	this->top = this->anchor.y + this->pos.y;
+	this->bottom = this->anchor.y + this->pos.y + this->size.y;
+}
+
 sf::Vector2f Hitbox::getLocalPos() const
 {
     return pos;
@@ -204,6 +285,7 @@ void Hitbox::setY(float y)
 	bottom = anchor.y + pos.y + size.y;
 	top = anchor.y + pos.y;
 }
+
 std::string Hitbox::getLabel() const
 {
     return label;
@@ -329,6 +411,35 @@ void Hitboxed::rotateHitboxes(double degrees)
 void Hitboxed::setActiveHitbox(std::string label)
 {
 	activeHitbox = label;
+}
+
+void Hitboxed::setScaleHitboxes(sf::Vector2f scale)
+{
+	for (auto& f : hitboxes)
+	{
+		for (Hitbox& hitbox : f.second)
+		{
+			hitbox.setScale(scale);
+		}
+	}
+}
+
+void Hitboxed::flipHitboxes(sf::Sprite* sprite, bool state)
+{
+	for (auto& f : hitboxes)
+	{
+		for (Hitbox& hitbox : f.second)
+		{
+			if (hitbox.getFlipped() == state) return;
+			hitbox.flip(sprite, state);
+		}
+	}
+}
+
+bool Hitboxed::areHitboxesFlipped()
+{
+	if (hitboxes[activeHitbox].size()) return hitboxes[activeHitbox][0].getFlipped();
+	return false;
 }
 
 sf::Vector2f Hitbox::getAnchor() const

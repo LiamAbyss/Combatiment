@@ -153,6 +153,7 @@
     <ClCompile Include="GameLib\ResourceManager.cpp" />
     <ClCompile Include="GameLib\Scene.cpp" />
     <ClCompile Include="GameLib\TransparentWindow.cpp" />
+    <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
@@ -166,9 +167,14 @@
     <ClInclude Include="GameLib\ResourceManager.h" />
     <ClInclude Include="GameLib\Scene.h" />
     <ClInclude Include="GameLib\TransparentWindow.h" />
+    <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="SplashScreen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\building\hitboxes.json" />
+    <None Include="..\assets\levels\groundHitboxes.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -54,7 +54,7 @@ bool ResourceManager::load(std::string key, std::string file)
 		{
 			nlohmann::json j;
 			jFile >> j;
-			jsonHolder.emplace(key, j);
+			jsonHolder.emplace(key, new nlohmann::json(j));
 			return true;
 		}
 		else 

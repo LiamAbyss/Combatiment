@@ -5,6 +5,7 @@ Game::Game(std::string title, sf::VideoMode mode, sf::Uint32 style)
 	window.create(mode, title, style);
 	windowMode = mode;
 	windowTitle = title;
+	window.setFramerateLimit(framerate);
 }
 
 void Game::addScene(std::string label, Scene* scene)
@@ -57,6 +58,7 @@ sf::VideoMode Game::getVideoMode()
 void Game::setVideoMode(sf::VideoMode mode, sf::Uint32 style)
 {
 	window.create(mode, windowTitle, style);
+	window.setFramerateLimit(framerate);
 	windowMode = mode;
 }
 
@@ -68,6 +70,7 @@ unsigned short Game::getFramerate()
 void Game::setFramerate(unsigned short rate)
 {
 	framerate = rate;
+	window.setFramerateLimit(framerate);
 }
 
 void Game::launch()
@@ -77,12 +80,13 @@ void Game::launch()
 		std::cout << "Unable to launch the game : No scene could be found." << std::endl;
 		return;
 	}
+	window.setFramerateLimit(framerate);
 	gameClock.restart();
 	framerateClock.restart();
 	updateClock.restart();
 	while (window.isOpen())
 	{
-		sf::Time updateTime = updateClock.restart();
+		//sf::Time updateTime = updateClock.restart();
 		while (window.pollEvent(ev))
 		{
 			for(auto& c : clickables)
@@ -90,12 +94,13 @@ void Game::launch()
 				if (c->isClicked())
 					c->onClick();
 			}
-			scenes[currentScene]->update(updateTime, ev);
+			scenes[currentScene]->update(updateClock.getElapsedTime(), ev);
 			if (ev.type == sf::Event::Closed)
 				window.close();
 		}
+		scenes[currentScene]->update(updateClock.restart());
 
-		if (framerateClock.getElapsedTime().asMilliseconds() >= 1000 / framerate)
+		//if (framerateClock.getElapsedTime().asMilliseconds() >= 1000 / framerate)
 		{
 			window.clear();
 			scenes[currentScene]->render();

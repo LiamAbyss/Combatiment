@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "Options.h"
 #include "SplashScreen.h"
+#include "LevelSelect.h"
 
 #if defined (SFML_SYSTEM_WINDOWS)
 #ifdef NDEBUG
@@ -26,8 +27,9 @@ int main()
 	combatiment.addScene("menu", new Menu());
 	combatiment.addScene("options", new Options());
 	combatiment.addScene("splash", new SplashScreen());
+	combatiment.addScene("levelSelect", new LevelSelect());
 
-
+	combatiment.setFramerate(120);
 	//Set current scene to initialize
 	combatiment.setCurrentScene("splash");
 	combatiment.launch();
