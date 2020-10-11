@@ -63,7 +63,20 @@ void LevelSelect::update(sf::Time dt, sf::Event& ev)
 void LevelSelect::update(sf::Time dt)
 {
 	//Camera
-	window->setView(sf::View(sf::Vector2f(player.getPosition().x, window->getSize().y / 2), (sf::Vector2f)window->getSize()));
+	float sceneSize = ground.getSize().x * ground.getScale().x;
+	if (player.getGlobalBounds().left + player.getGlobalBounds().width / 2 > window->getSize().x / 2
+		&& player.getGlobalBounds().left + player.getGlobalBounds().width / 2 < sceneSize - window->getSize().x / 2.)
+	{
+		game->cam.move(-game->cam.getCenter() + sf::Vector2f(player.getPosition().x + player.getGlobalBounds().width / 2, window->getSize().y / 2));
+	}
+	else if(window->getView().getCenter().x >= sceneSize / 2)
+	{
+		game->cam.move(-game->cam.getCenter() + sf::Vector2f(sceneSize - window->getSize().x / 2, window->getSize().y / 2));
+	}
+	else if(window->getView().getCenter().x <= sceneSize / 2)
+	{
+		game->cam.move(-game->cam.getCenter() + sf::Vector2f(sf::Vector2f(window->getSize().x / 2, window->getSize().y / 2)));
+	}
 
 	//Jump
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && Hitbox::doesHit(&ground, &player))
@@ -92,13 +105,18 @@ void LevelSelect::update(sf::Time dt)
 		player.velocity.x = 0;
 
 	//Gravity (=10px/s²) + Collisions
-	player.velocity.y += 10 * dt.asSeconds();
+	if(!Hitbox::doesHit(&ground, &player))
+		player.velocity.y += 10 * dt.asSeconds();
 	player.moveHitboxes(player.velocity);
 	player.move(player.velocity);
-	if (Hitbox::doesHit(&ground, &player))
+	if (player.velocity.y && Hitbox::doesHit(&ground, &player))
 	{
+		//Shake camera when landing
+		game->cam.shake(player.velocity.y, sf::seconds(0.2));
 		player.moveHitboxes(-player.velocity);
-		player.velocity.y = -player.velocity.y * 0;
+		player.velocity.y = -player.velocity.y * 0; //Bounce ?
+		if (abs(player.velocity.y) < 1) player.velocity.y = 0;
+
 		player.setPosHitboxes(sf::Vector2f(
 			player.getPosition().x,
 			ground.hitboxes[ground.activeHitbox][0].getTop() - player.getScale().y * playerText->getSize().y
@@ -106,6 +124,21 @@ void LevelSelect::update(sf::Time dt)
 		player.setPosition(sf::Vector2f(
 			player.getPosition().x,
 			ground.hitboxes[ground.activeHitbox][0].getTop() - player.getScale().y * playerText->getSize().y
+		));
+	}
+	if(player.hitboxes[player.activeHitbox][0].getLeft() <= 0)
+	{
+		player.setPosHitboxes(sf::Vector2f(0 - player.hitboxes[player.activeHitbox][0].getLocalPos().x, player.getPosition().y));
+		player.setPosition(sf::Vector2f(0 - player.hitboxes[player.activeHitbox][0].getLocalPos().x, player.getPosition().y));
+	}
+	else if(player.hitboxes[player.activeHitbox][0].getRight() >= background.getGlobalBounds().width)
+	{
+		player.setPosHitboxes(sf::Vector2f(
+			background.getGlobalBounds().width - player.hitboxes[player.activeHitbox][0].getSize().x - player.hitboxes[player.activeHitbox][0].getLocalPos().x,
+			player.getPosition().y));
+		player.setPosition(sf::Vector2f(
+			background.getGlobalBounds().width - player.hitboxes[player.activeHitbox][0].getSize().x - player.hitboxes[player.activeHitbox][0].getLocalPos().x,
+			player.getPosition().y
 		));
 	}
 }

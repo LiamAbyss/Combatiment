@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameLib\Camera.cpp" />
     <ClCompile Include="GameLib\Clickable.cpp" />
     <ClCompile Include="GameLib\Game.cpp" />
     <ClCompile Include="GameLib\Hitbox.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="SplashScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameLib\Camera.h" />
     <ClInclude Include="GameLib\Clickable.h" />
     <ClInclude Include="GameLib\Game.h" />
     <ClInclude Include="GameLib\Hitbox.h" />

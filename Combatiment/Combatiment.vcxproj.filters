@@ -51,6 +51,9 @@
     <ClCompile Include="GameLib\Scene.cpp">
       <Filter>GameLib</Filter>
     </ClCompile>
+    <ClCompile Include="GameLib\Camera.cpp">
+      <Filter>GameLib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -84,6 +87,9 @@
       <Filter>GameLib</Filter>
     </ClInclude>
     <ClInclude Include="GameLib\Scene.h">
+      <Filter>GameLib</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLib\Camera.h">
       <Filter>GameLib</Filter>
     </ClInclude>
   </ItemGroup>

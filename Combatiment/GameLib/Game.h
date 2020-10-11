@@ -5,9 +5,12 @@
 #include <SFML/Audio.hpp>
 #include <map>
 #include <string>
+#include <ctime>
+#include <cstdlib>
 #include "Clickable.h"
 #include "ResourceManager.h"
 #include "TransparentWindow.h"
+#include "Camera.h"
 
 class Scene;
 #include "Scene.h"
@@ -94,6 +97,9 @@ private:
 	sf::Event ev;
 
 public:
+
+	Camera cam;
+
 	/**
 	 * \public
 	 * Game constructor

@@ -2,10 +2,14 @@
 
 Game::Game(std::string title, sf::VideoMode mode, sf::Uint32 style)
 {
+	srand(time(NULL));
 	window.create(mode, title, style);
 	windowMode = mode;
 	windowTitle = title;
 	window.setFramerateLimit(framerate);
+	cam.setCenter(window.getDefaultView().getCenter());
+	cam.setSize(window.getDefaultView().getSize());
+	cam.window = &window;
 }
 
 void Game::addScene(std::string label, Scene* scene)
@@ -60,6 +64,8 @@ void Game::setVideoMode(sf::VideoMode mode, sf::Uint32 style)
 	window.create(mode, windowTitle, style);
 	window.setFramerateLimit(framerate);
 	windowMode = mode;
+	cam.setCenter(window.getDefaultView().getCenter());
+	cam.setSize(window.getDefaultView().getSize());
 }
 
 unsigned short Game::getFramerate()
@@ -98,8 +104,9 @@ void Game::launch()
 			if (ev.type == sf::Event::Closed)
 				window.close();
 		}
-		scenes[currentScene]->update(updateClock.restart());
-
+		scenes[currentScene]->update(updateClock.getElapsedTime());
+		cam.update(updateClock.restart());
+		window.setView(cam);
 		//if (framerateClock.getElapsedTime().asMilliseconds() >= 1000 / framerate)
 		{
 			window.clear();
